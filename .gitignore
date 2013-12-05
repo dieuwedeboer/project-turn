@@ -1,4 +1,7 @@
+# Dart
 .DS_Store
 packages
 .project
 pubspec.lock
+# UNIX backup files
+*~

@@ -1,0 +1,20 @@
+
+body {
+  width: 960px;
+  margin: auto;
+  background-color: #F8F8F8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+}
+
+h1, p {
+  color: #333;
+}
+
+#context-menu {
+  position: fixed;
+  margin: 0;
+  padding: 0;
+}

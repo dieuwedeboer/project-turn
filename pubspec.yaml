@@ -1,0 +1,6 @@
+name: turn
+author: Dieuwe de Boer
+description: A web application
+dependencies:
+  bot_web: any
+  browser: any
