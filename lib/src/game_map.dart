@@ -8,6 +8,9 @@ class GameMap {
   Tile selectedTile;
   Unit activeUnit;
   List tiles = new List<Tile>();
+  num offsetX = 0;
+  num offsetY = 0;
+  // Getters
   num get size => width * height;
   // Constructors
   GameMap(num this.width, num this.height);
@@ -40,6 +43,9 @@ class GameMap {
   }
   // Tile size
   num tileSize() {
+    // New fixed
+    return 50;
+    // Original
     num maxTileWidth = canvas.width / width;
     num maxTileHeight = canvas.height / height;
     num tileSize = Math.min(maxTileWidth, maxTileHeight);

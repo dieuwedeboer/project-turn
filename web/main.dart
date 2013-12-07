@@ -9,6 +9,7 @@ import 'dart:math' as Math;
 
 // Main (setup function)
 void main() {
+  // @TODO: Ideally all this should do is start the game. Setup should be moved.
   // Calculate canvas size
   Rectangle rect = canvas.getBoundingClientRect();
   num maxWidth = window.innerWidth - rect.left.floor();
@@ -32,10 +33,31 @@ void main() {
   canvas.onContextMenu.listen((MouseEvent e) {
     canvasRightClicked(e);
   });
+  // Keyboard - support WASD
+  document.onKeyDown.listen((KeyEvent e) {
+    window.console.log(e);
+    if (e.keyCode == KeyCode.UP || e.keyCode == KeyCode.W) {
+      map.offsetY -= 10;
+    }
+    else if (e.keyCode == KeyCode.LEFT || e.keyCode == KeyCode.A) {
+      map.offsetX -= 10;
+    }
+    else if (e.keyCode == KeyCode.DOWN || e.keyCode == KeyCode.S) {
+      map.offsetY += 10;
+    }
+    else if (e.keyCode == KeyCode.RIGHT || e.keyCode == KeyCode.D) {
+      map.offsetX += 10;
+    }
+    map.draw();
+  });
 }
 
 // Click event
 void canvasClicked(MouseEvent e) {
+  // Close the context menu if it is open. @TODO: Properly.
+  for (var element in contextMenu.children) {
+    element.remove();
+  }
   // Get relative coordinates
   GamePoint click = getXandY(e);
   // Find clicked tile
@@ -61,14 +83,15 @@ Tile findClickedTile(GamePoint click) {
   }
 }
 
+MenuElement contextMenu = querySelector("#context-menu");
 // Right click event
 void canvasRightClicked(MouseEvent e) {
   e.preventDefault();
   // Get relative coordinates
   GamePoint click = getXandY(e);
   // @TODO: Better way of doing this with polymer?
-  // Get and build menu
-  MenuElement contextMenu = querySelector("#context-menu");
+  // @TODO: Menu should only be built once either way.
+  // Build menu
   for (var element in contextMenu.children) {
     element.remove();
   }
@@ -87,7 +110,10 @@ void canvasRightClicked(MouseEvent e) {
     // Redraw
     map.draw();
     //tile.draw();
-    // Close menu
+    // Close menu. @TODO: Properly.
+    for (var element in contextMenu.children) {
+      element.remove();
+    }
   });
   contextMenu.append(moveButton);
   // Show menu
