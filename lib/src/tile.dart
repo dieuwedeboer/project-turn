@@ -1,15 +1,25 @@
 part of turn;
 
-// Tile class
+/**
+ * Tile class
+ */
 class Tile {
-  // Properties
+  /**
+   * Properties
+   */
   int id;
   num _size;
-  num _x;
+  num _x; // absolute x/y with relation to the whole map
   num _y;
+  num row;
+  num column;
   List units = new List<Unit>();
-  // Getters
-  num get x => _x - map.offsetX;
+  ImageElement image;
+  bool selected;
+  /**
+   * Getters
+   */
+  num get x => _x - map.offsetX; // relative x/y with relation to the canvas
   num get y => _y - map.offsetY;
   num get width => _size;
   num get height => _size;
@@ -17,15 +27,27 @@ class Tile {
   num get centerY => y + (height / 2);
   num get endX => x + width;
   num get endY => y + height;
-  // Constructors
-  Tile(int this.id, num this._size, num this._x, num this._y);
-  // Functions
+  /**
+   * Constructors
+   */
+  Tile(int this.id, num this._size, num this._x, num this._y) {
+    // @TODO: Check if asset really is in cache? (Load properly)
+    image = gCachedAssets['/images/grass_1.png'];
+  }
+  /**
+   * Functions
+   */
   void draw() {
     _clear();
-    context.strokeRect(x, y, width, height);
-    //context.font = "12px Arial";
-    context.fillText(id.toString(), centerX, centerY);
-    // Draw containing units. @TODO: We probably only want to draw one ;)
+    // @TODO: Loading screen for assets
+    ctx.drawImageScaled(image, x, y, width, height);
+    ctx.strokeRect(x, y, width, height);
+    ctx.fillText(id.toString(), centerX, centerY);
+    // If selected
+    if (selected) {
+      select();
+    }
+    // Draw containing units. @TODO: We probably only want to draw one.
     if (units.isNotEmpty) {
       for (Unit unit in units) {
         unit.draw();
@@ -34,9 +56,9 @@ class Tile {
   }
   void select() {
     _clear();
-    context.fillRect(x, y, width, height);
+    ctx.fillRect(x, y, width, height);
   }
   void _clear() {
-    context.clearRect(x, y, width, height);
+    ctx.clearRect(x, y, width, height);
   }
 }
